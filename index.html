@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senhas Seguras</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .password-display {
+            transition: all 0.3s ease;
+        }
+        
+        .copied-message {
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .copied-message.show {
+            opacity: 1;
+        }
+        
+        .toggle-checkbox:checked {
+            @apply: right-0 border-green-400;
+            right: 0;
+            border-color: #68D391;
+        }
+        
+        .toggle-checkbox:checked + .toggle-label {
+            @apply: bg-green-400;
+            background-color: #68D391;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden fade-in">
+        <div class="bg-indigo-600 p-6 text-white">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-lock mr-3"></i>
+                Gerador de Senhas
+            </h1>
+            <p class="text-indigo-100 mt-1">Crie senhas seguras e envie facilmente</p>
+        </div>
+        
+        <div class="p-6">
+            <div class="password-display bg-gray-50 rounded-lg p-4 mb-6 flex justify-between items-center border border-gray-200">
+                <div class="overflow-x-auto">
+                    <p id="generated-password" class="text-xl font-mono tracking-wider text-gray-800 whitespace-nowrap">Clique em Gerar Senha</p>
+                </div>
+                <button id="copy-btn" class="text-indigo-600 hover:text-indigo-800 transition-colors">
+                    <i class="far fa-copy text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="copied-message text-center text-sm text-green-600 mb-4">
+                Senha copiada para a área de transferência!
+            </div>
+            
+            <div class="space-y-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700">Comprimento: <span id="length-value" class="font-bold">12</span></label>
+                    <input id="length-slider" type="range" min="6" max="32" value="12" class="w-40 accent-indigo-600">
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700">Incluir maiúsculas</label>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                        <input type="checkbox" id="uppercase-toggle" checked class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                        <label for="uppercase-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700">Incluir números</label>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                        <input type="checkbox" id="numbers-toggle" checked class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                        <label for="numbers-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700">Incluir símbolos</label>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                        <input type="checkbox" id="symbols-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                        <label for="symbols-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="generate-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                    <i class="fas fa-key mr-2"></i>
+                    Gerar Senha
+                </button>
+                
+                <button id="whatsapp-btn" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                    <i class="fab fa-whatsapp mr-2"></i>
+                    Enviar por WhatsApp
+                </button>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                    <p class="text-blue-800 text-sm">
+                        Insira o número abaixo para configurar o envio automático pelo WhatsApp.
+                    </p>
+                </div>
+                <input id="whatsapp-number" type="tel" placeholder="Ex: 5511999999999" class="mt-3 w-full px-4 py-2 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos DOM
+            const generateBtn = document.getElementById('generate-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const generatedPassword = document.getElementById('generated-password');
+            const lengthSlider = document.getElementById('length-slider');
+            const lengthValue = document.getElementById('length-value');
+            const uppercaseToggle = document.getElementById('uppercase-toggle');
+            const numbersToggle = document.getElementById('numbers-toggle');
+            const symbolsToggle = document.getElementById('symbols-toggle');
+            const whatsappNumber = document.getElementById('whatsapp-number');
+            const copiedMessage = document.querySelector('.copied-message');
+            
+            // Atualizar valor do comprimento
+            lengthSlider.addEventListener('input', function() {
+                lengthValue.textContent = this.value;
+            });
+            
+            // Gerar senha
+            generateBtn.addEventListener('click', generatePassword);
+            
+            // Copiar senha
+            copyBtn.addEventListener('click', function() {
+                if (generatedPassword.textContent !== 'Clique em Gerar Senha') {
+                    navigator.clipboard.writeText(generatedPassword.textContent);
+                    
+                    // Mostrar mensagem de copiado
+                    copiedMessage.classList.add('show');
+                    setTimeout(() => {
+                        copiedMessage.classList.remove('show');
+                    }, 2000);
+                }
+            });
+            
+            // Enviar por WhatsApp
+            whatsappBtn.addEventListener('click', function() {
+                if (generatedPassword.textContent === 'Clique em Gerar Senha') {
+                    alert('Por favor, gere uma senha primeiro!');
+                    return;
+                }
+                
+                const number = whatsappNumber.value.trim();
+                if (!number) {
+                    alert('Por favor, insira um número de WhatsApp válido com código do país (ex: 5511999999999)');
+                    return;
+                }
+                
+                const message = encodeURIComponent(`Sua nova senha gerada é: ${generatedPassword.textContent}\n\nRecomendamos que você a altere após o primeiro login.`);
+                window.open(`https://wa.me/${number}?text=${message}`, '_blank');
+            });
+            
+            // Função para gerar senha
+            function generatePassword() {
+                const length = parseInt(lengthSlider.value);
+                const includeUppercase = uppercaseToggle.checked;
+                const includeNumbers = numbersToggle.checked;
+                const includeSymbols = symbolsToggle.checked;
+                
+                let charset = 'abcdefghijklmnopqrstuvwxyz';
+                if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                if (includeNumbers) charset += '0123456789';
+                if (includeSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+                
+                let password = '';
+                for (let i = 0; i < length; i++) {
+                    const randomIndex = Math.floor(Math.random() * charset.length);
+                    password += charset[randomIndex];
+                }
+                
+                generatedPassword.textContent = password;
+                
+                // Efeito visual
+                generatedPassword.parentElement.classList.add('bg-indigo-50', 'border-indigo-200');
+                setTimeout(() => {
+                    generatedPassword.parentElement.classList.remove('bg-indigo-50', 'border-indigo-200');
+                }, 500);
+            }
+            
+            // Gerar uma senha inicial
+            generatePassword();
+        });
+    </script>
+</body>
+</html>
