@@ -1,0 +1,140 @@
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.options, .whatsapp-section {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.options label, .whatsapp-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#password-length, #whatsapp-number {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.character-types {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.character-types div {
+    margin-bottom: 5px;
+}
+
+.character-types input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button, a#whatsapp-link {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+button:hover, a#whatsapp-link:hover:not([disabled]) {
+    background-color: #4cae4c;
+}
+
+button:active {
+    background-color: #398439;
+}
+
+a#whatsapp-link[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.password-output {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.password-output input[type="text"] {
+    width: calc(100% - 80px - 12px); /* Full width minus copy button width and padding/border */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+.password-output button {
+    padding: 10px 15px;
+    background-color: #0275d8;
+    margin-top: 0;
+}
+
+.password-output button:hover {
+    background-color: #025aa5;
+}
+
+.whatsapp-section a#whatsapp-link {
+    display: block;
+    text-align: center;
+    background-color: #25D366; /* WhatsApp Green */
+}
+
+.whatsapp-section a#whatsapp-link:hover:not([disabled]) {
+     background-color: #128C7E; /* Darker WhatsApp Green */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    #password-length, #whatsapp-number {
+        width: calc(100% - 20px);
+    }
+
+    .password-output input[type="text"] {
+         width: calc(100% - 70px - 10px); /* Adjust for smaller copy button/padding */
+    }
+
+    button, a#whatsapp-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+

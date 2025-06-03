@@ -1,0 +1,61 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senhas</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+            "imports": {}
+        }
+    </script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Senhas</h1>
+
+        <div class="options">
+            <label for="password-length">Comprimento da Senha:</label>
+            <input type="number" id="password-length" value="12" min="4" max="128">
+
+            <div class="character-types">
+                <label>Incluir:</label>
+                <div>
+                    <input type="checkbox" id="include-uppercase" checked>
+                    <label for="include-uppercase">Maiúsculas (ABC)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="include-lowercase" checked>
+                    <label for="include-lowercase">Minúsculas (abc)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="include-numbers" checked>
+                    <label for="include-numbers">Números (123)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="include-symbols">
+                    <label for="include-symbols">Símbolos (!@#$)</label>
+                </div>
+            </div>
+        </div>
+
+        <button id="generate-button">Gerar Senha</button>
+
+        <div class="password-output">
+            <label for="generated-password">Senha Gerada:</label>
+            <input type="text" id="generated-password" readonly>
+            <button id="copy-button">Copiar</button>
+        </div>
+
+        <div class="whatsapp-section">
+            <h2>Enviar por WhatsApp</h2>
+            <label for="whatsapp-number">Número de Telefone (ex: 5511987654321):</label>
+            <input type="text" id="whatsapp-number" placeholder="Ex: 5511987654321">
+            <a id="whatsapp-link" href="#" target="_blank" disabled>Enviar Senha via WhatsApp</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
