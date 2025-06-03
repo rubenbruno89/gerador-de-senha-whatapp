@@ -39,3 +39,4 @@ Insira o número do WhatsApp no formato internacional (por exemplo, 551199999999
 um número de São Paulo, Brasil).
 Clique no botão "Enviar para WhatsApp" para abrir uma conversa no WhatsApp com a
 senha gerada.
+https://rubenbruno89.github.io/gerador-de-senha-whatapp/ 
